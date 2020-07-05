@@ -13,9 +13,9 @@ export class ValidateToken {
     ){}
 
     async validateToken(token: any){
-        const { id, username, email } = token
+        const { id, name, email } = token
         const user = await this.userRepository.findOne({
-            where: { id, username, email, state: States.ACTIVE }
+            where: { id, name, email, state: States.ACTIVE }
         })
         if(!user)
             throw new UnauthorizedException('invalid or expired token')

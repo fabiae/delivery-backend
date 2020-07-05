@@ -14,8 +14,7 @@ export class RolesGuard implements CanActivate {
         const request = context.switchToHttp().getRequest()
         const { user } = request
 
-        const matchRoles = () => user.roles.some(role => roles.includes(role))//many to many user-roles
-        //const matchRoles = () => roles.includes(user.role) one to many user-roles
+        const matchRoles = () => user.roles.some(role => roles.includes(role))
 
         return user && user.roles && matchRoles()
     }

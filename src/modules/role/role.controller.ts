@@ -25,6 +25,8 @@ import { Roles } from '../../@common/enums/roles.enum'
 import { States } from '../../@common/enums/states.enum'
 
 @Controller('role')
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@RolesDecorator(Roles.ADMIN)
 export class RoleController {
     constructor(
         private readonly getRoleService: GetRoleService,
@@ -44,29 +46,21 @@ export class RoleController {
     }
 
     @Post()
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    @RolesDecorator(Roles.ADMIN)
     createRole(@Body() body: CreateRole) {
         return this.createRoleService.createRole(body)
     }
 
     @Put('/:id')
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    @RolesDecorator(Roles.ADMIN)
     updateRole(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateRole) {
         return this.updateRoleService.updateRole(id, body)
     }
 
     @Put('/set-state/:id')
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    @RolesDecorator(Roles.ADMIN)
     setState(@Param('id', ParseIntPipe) id: number) {
         return this.updateRoleService.setState(id)
     }
 
     @Delete('/:id')
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    @RolesDecorator(Roles.ADMIN)
     deleteRole(@Param('id', ParseIntPipe) id: number) {
         return this.deleteRoleService.deleteRole(id)
     }

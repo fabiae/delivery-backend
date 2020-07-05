@@ -9,26 +9,19 @@ import { Roles } from '../enums/roles.enum'
 
 interface JwtPayload {
     id: number,
-    username: string,
+    name: string,
     email: string,
     roles: Roles[],
-    permissions: string[],
     iat?: Date
 }
 
 export function getToken(user: User) {
-    let permissions
-    user.userRoles.forEach(u_r => {
-        permissions = u_r.userPermissions.map(u_p => u_p.permission.name)
-    })
 
     const payload: JwtPayload = {
         id: user.id,
-        username: user.username,
+        name: user.name,
         email: user.email,
         roles: user.userRoles.map(userRole => userRole.role.name as Roles),
-        //roles: user.roles.map(role => role.name as Roles)
-        permissions
     }
     return payload
 }

@@ -6,13 +6,11 @@ import {
     CreateDateColumn, 
     ManyToOne, 
     JoinColumn, 
-    OneToMany
 } from "typeorm"
 
 import { States } from "../../@common/enums/states.enum"
 import { User } from "./user.entity"
 import { Role } from "./role.entity"
-import { UserPermissions } from "./userPermissions.entity"
 
 @Entity('user_roles')
 export class UserRoles {
@@ -43,10 +41,4 @@ export class UserRoles {
     )
     @JoinColumn({ name: 'fk_role' })
     role: Role
-
-    @OneToMany(
-        type => UserPermissions,
-        userPermissions => userPermissions.userRoles
-    )
-    userPermissions: UserPermissions[]
 }

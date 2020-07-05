@@ -4,14 +4,12 @@ import { Repository } from "typeorm"
 
 import { User } from "../../../entities/example/user.entity"
 import { BcryptService } from "../../../@common/utils/bcrypt.service"
-import { States } from "../../../@common/enums/states.enum"
 import { Roles } from '../../../@common/enums/roles.enum'
 import { SignUp } from "../dto/signup.dto"
 import { UserRoles } from "../../../entities/example/userRoles.entity"
 import { GetRoleService } from "../../role/services/get.role.service"
 import { SendgridService, Templates } from "../../../@common/utils/sendgrid.service"
 import { SignInService } from "./signin.service"
-import { Profile } from "../../../entities/example/profile.entity"
 import { GetLanguageService } from "../../language/services/get.language.service"
 
 @Injectable()
@@ -27,13 +25,6 @@ export class SignUpService {
         private readonly sendgridService: SendgridService,
         private readonly signinService: SignInService
     ) { }
-
-    async userAvailable(username: string): Promise<object> {
-        const userAvailable = await this.userRepository.findOne({ 
-            where: { state: States.ACTIVE, username } 
-        })
-        return { available: !userAvailable }
-    }
 
     async signUp(body: SignUp): Promise<object> {
         const { username, email, password, roles } = body
@@ -54,14 +45,11 @@ export class SignUpService {
                 await this.userRolesRepository.save({ user, role: rol })
             })
         }else{
-            const defaultRole = await this.getRoleService.getRole({ name: Roles.GENERAL }) 
+            const defaultRole = await this.getRoleService.getRole({ name: Roles.CLIENT }) 
             await this.userRolesRepository.save({ user, role: defaultRole })
         }
 
         user.language = await this.getLanguageService.getLanguage({ name: 'SPANISH' })
-
-        const profile = new Profile()
-        user.profile = profile
 
         await this.userRepository.save(user)
 

@@ -4,9 +4,7 @@ import { Repository } from "typeorm"
 import { Role } from "../../entities/example/role.entity"
 
 export const ROLES = [
-    { name: 'SUPER ADMIN', description: 'app super admin role'},
     { name: 'ADMIN', description: 'app admin role' },
-    { name: 'GENERAL', description: 'app general role' },
     { name: 'CLIENT', description: 'app client role' }
 ]
 

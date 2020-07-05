@@ -16,13 +16,6 @@ export class AuthController {
         private readonly recoverPasswordService: RecoverPasswordService
     ) { }
 
-    @Get('/user-available')
-    userAvailable(@Query("username") username: string) {
-        if (!username)
-            return null
-        return this.signupService.userAvailable(username)
-    }
-
     @Post('/signup')
     signUp(@Body() body: SignUp) {
         return this.signupService.signUp(body)

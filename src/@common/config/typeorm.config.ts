@@ -1,7 +1,6 @@
 import { registerAs } from "@nestjs/config"
 
 export default registerAs('typeorm', () => {
-  //many connections any database and any type 
 
   const configExample = {
     type: process.env.DB_TYPE, 

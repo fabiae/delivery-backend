@@ -10,16 +10,16 @@ import { Language } from "../../entities/example/language.entity"
 
 export const USERS = [
     { 
-        username: 'admin', 
+        name: 'admin', 
         email: 'admin@email.com', 
         password: 'admin', 
         role: Roles.ADMIN
     },
     {
-        username: 'general', 
-        email: 'general@email.com', 
-        password: 'general', 
-        role: Roles.GENERAL
+        name: 'client', 
+        email: 'client@email.com', 
+        password: 'client', 
+        role: Roles.CLIENT
     }
 ]
 
@@ -41,14 +41,14 @@ export class UserDefault {
     }
 
     async create(_object: any){
-        const { username, email, password, role } = _object
+        const { name, email, password, role } = _object
 
-        const isExist = await this.repository.findOne({ where: { username: _object.username }})
+        const isExist = await this.repository.findOne({ where: { name: _object.name }})
         if(isExist)
             return
 
         const _new = await this.repository.save({
-            username,
+            name,
             email,
             password: this.bcryptService.encryption(password)
         })

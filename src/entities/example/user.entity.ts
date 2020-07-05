@@ -4,14 +4,12 @@ import {
     CreateDateColumn, 
     UpdateDateColumn, 
     Column, 
-    OneToOne,
     JoinColumn,
     OneToMany,
     ManyToOne,
 } from "typeorm"
 
 import { States } from "../../@common/enums/states.enum"
-import { Profile } from "./profile.entity"
 import { UserRoles } from "./userRoles.entity"
 import { Language } from "./language.entity"
 
@@ -22,7 +20,7 @@ export class User {
     id: number
 
     @Column({ type: 'character varying', nullable: false })
-    username: string
+    name: string
 
     @Column({ type: 'character varying', nullable: false, unique: true })
     email: string
@@ -38,14 +36,6 @@ export class User {
 
     @UpdateDateColumn({ type: 'timestamp', name: 'update_ad' })
     updateAd: Date
-
-    @OneToOne(
-        type => Profile,
-        profile => profile.user,
-        { cascade: true }
-    )
-    @JoinColumn({ name: 'fk_profile' })
-    profile: Profile
     
     @OneToMany(
         type => UserRoles,

@@ -16,19 +16,13 @@ export class GetPermissionsService {
         const permissions = await this.userRolesRepository
           .createQueryBuilder('user_roles')
           .select(['user_roles.id'])
-          .addSelect(['role.name', 'user_permissions.id', 'permission.id', 'permission.name'])
+          .addSelect(['role.name'])
           .innerJoin('user_roles.user', 'user', 'user.id = :id and user.state = :stat', { 
               id, stat: States.ACTIVE 
             })
           .innerJoin('user_roles.role', 'role', 'role.state = :stat', { 
               stat: States.ACTIVE 
             })
-          .leftJoin('user_roles.userPermissions', 'user_permissions', 'user_permissions.state = :stat', {
-              stat: States.ACTIVE
-          })
-          .leftJoin('user_permissions.permission', 'permission', 'permission.state = :stat', {
-              stat: States.ACTIVE
-          })
           .where('user_roles.state = :state', { state: States.ACTIVE })
           .getMany()
         
