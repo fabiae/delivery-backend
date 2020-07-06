@@ -67,7 +67,7 @@ export class RecoverPasswordService {
     return { userId: body.id, ok: true }
   }
 
-  async restorePassword(body: RecoverPass): Promise<object> {
+  async newPassword(body: RecoverPass): Promise<object> {
     const { id, password } = body
 
     const userExist = await this.userRepository.findOne({

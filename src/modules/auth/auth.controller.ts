@@ -38,8 +38,8 @@ export class AuthController {
         return this.recoverPasswordService.validateCode(body)
     }
 
-    @Post('/recover-password')
-    recoverPassword(@Body() body: RecoverPass) {
-        return this.recoverPasswordService.restorePassword(body)
+    @Post('/new-password')
+    newPassword(@Body() body: RecoverPass) {
+        return this.recoverPasswordService.newPassword(body)
     }
 }
