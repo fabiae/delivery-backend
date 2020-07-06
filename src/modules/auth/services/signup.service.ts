@@ -7,9 +7,9 @@ import { BcryptService } from "../../../@common/utils/bcrypt.service"
 import { Roles } from '../../../@common/enums/roles.enum'
 import { SignUp } from "../dto/signup.dto"
 import { UserRoles } from "../../../entities/example/userRoles.entity"
-import { GetRoleService } from "../../role/services/get.role.service"
 import { SendgridService, Templates } from "../../../@common/utils/sendgrid.service"
 import { SignInService } from "./signin.service"
+import { Role } from "../../../entities/example/role.entity"
 
 @Injectable()
 export class SignUpService {
@@ -18,8 +18,9 @@ export class SignUpService {
         private readonly userRepository: Repository<User>,
         @InjectRepository(UserRoles)
         private readonly userRolesRepository: Repository<UserRoles>,
+        @InjectRepository(Role)
+        private readonly roleRepository: Repository<Role>,
         private readonly bcryptService: BcryptService,
-        private readonly getRoleService: GetRoleService,
         private readonly sendgridService: SendgridService,
         private readonly signinService: SignInService
     ) { }
@@ -39,11 +40,11 @@ export class SignUpService {
 
         if(roles){
             roles.forEach(async role => {
-                const rol = await this.getRoleService.getRole({name: role})
+                const rol = await this.roleRepository.findOne({ name: role })
                 await this.userRolesRepository.save({ user, role: rol })
             })
         }else{
-            const defaultRole = await this.getRoleService.getRole({ name: Roles.CLIENT }) 
+            const defaultRole = await this.roleRepository.findOne({ name: Roles.CLIENT })
             await this.userRolesRepository.save({ user, role: defaultRole })
         }
 
