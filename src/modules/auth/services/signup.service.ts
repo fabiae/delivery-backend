@@ -35,7 +35,7 @@ export class SignUpService {
                 password: this.bcryptService.encryption(password)
             })
         } catch (error) {
-            throw new BadRequestException('Constraint email')
+            throw new BadRequestException('Email already registered')
         }
 
         if(roles){
@@ -55,7 +55,7 @@ export class SignUpService {
             Templates.SIGNUP_SUCCESS,
             {
                 name: user.name,
-                message: '',
+                message: 'Bienvenido a delivery, disfruta de tu estadia.',
             },
         )
 

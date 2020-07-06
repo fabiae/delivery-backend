@@ -18,7 +18,7 @@ export class GetUserService {
     async getAllUsers(role: Roles){
         const users = this.userRepository
             .createQueryBuilder('user')
-            .select(['user.id', 'user.name', 'user.email', 'user.state'])
+            .select([ 'user.id', 'user.name', 'user.email', 'user.state'])
             .innerJoin('user.userRoles', 'roles', 'roles.state = :stat', { stat: States.ACTIVE })
             .innerJoin('roles.role', 'role', 'role.name = :role and role.state = :stat', { role, stat: States.ACTIVE })
             .getMany()

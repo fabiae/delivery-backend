@@ -5,8 +5,14 @@ import { Injectable } from "@nestjs/common"
 const sgMail = require('@sendgrid/mail')
 
 export const Templates = {
-    SIGNUP_SUCCESS: {},
-    RECOVER_PASSWORD: {}
+    SIGNUP_SUCCESS: {
+        id: 'd-306ae57b3b394179a5ba1d098e65e5e9',
+        subject: 'Bienvenido a delivery'
+    },
+    RECOVER_PASSWORD: {
+        id: 'd-ab0e7d558ca64c68abffe44fc9c05547',
+        subject: 'Codigo de verificacion'
+    }
 }
 
 @Injectable()

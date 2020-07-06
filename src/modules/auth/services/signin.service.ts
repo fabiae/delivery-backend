@@ -33,12 +33,12 @@ export class SignInService {
             .getOne()
         
         if (!user) {
-            throw new NotFoundException('the user entered is not registered')
+            throw new NotFoundException('The user entered is not registered')
         }
 
         const isMatch = this.bcryptService.match(password, user.password)
         if (!isMatch) {
-            throw new BadRequestException('invalidate password')
+            throw new BadRequestException('Invalidate password')
         }
 
         const token = this.jwtService.sign(getToken(user))

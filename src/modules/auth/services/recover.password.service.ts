@@ -38,33 +38,37 @@ export class RecoverPasswordService {
 
     await this.recoverPasswordRepository.save({ code: randomCode, userId: userExist.id })
 
-    await this.sendgridService.sendEmail(email, Templates.RECOVER_PASSWORD, {
-      code: randomCode,
-    })
+    await this.sendgridService.sendEmail(
+      email, 
+      Templates.RECOVER_PASSWORD, 
+      {
+        code: randomCode,
+      }
+    )
 
     return {
       userId: userExist.id,
-      ok: true,
+      message: 'Success, Check your email',
     }
   }
 
   async validateCode(body: ValidateCode): Promise<object> {
     const recover = await this.recoverPasswordRepository.findOne({
-      where: { userId: body.id, code: body.code }
+      where: { userId: body.id, code: body.code, state: 'ACTIVE' }
     })
     if (!recover)
-      throw new BadRequestException('wrong code entered')
+      throw new BadRequestException('Wrong code entered')
 
     const current = new Date()
     if (current.getTime() - recover.createAd.getTime() > 600000) {
       recover.state = 'EXPIRED'
       await this.recoverPasswordRepository.save(recover)
-      throw new UnauthorizedException('code expired')
+      throw new UnauthorizedException('Code expired')
     }
 
     recover.state = 'SUCCESS'
     await this.recoverPasswordRepository.save(recover)
-    return { userId: body.id, ok: true }
+    return {  message: 'Success' }
   }
 
   async newPassword(body: RecoverPass): Promise<object> {
@@ -74,7 +78,7 @@ export class RecoverPasswordService {
       where: { id, state: States.ACTIVE },
     })
     if (!userExist)
-      throw new NotFoundException('user does not exists')
+      throw new NotFoundException('User does not exists')
 
     const newPassword = this.bcryptService.encryption(password)
 
@@ -83,8 +87,7 @@ export class RecoverPasswordService {
     })
 
     return {
-      restorePassword: 'SUCCESS',
-      ok: true,
+      message: 'Success'
     }
   }
 }
