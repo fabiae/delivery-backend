@@ -14,7 +14,6 @@ export class DeleteRoleService {
     ){}
 
     async deleteRole(id: number): Promise<object> {
-        await this.getRoleService.getRole({ id })
         const deletedRole = await this.roleRepository.delete(id)
         if(deletedRole.affected === 1 )
             return { delete: 'SUCCESS'}

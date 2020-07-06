@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common"
+import { Injectable, BadRequestException } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
 
@@ -10,7 +10,6 @@ import { UserRoles } from "../../../entities/example/userRoles.entity"
 import { GetRoleService } from "../../role/services/get.role.service"
 import { SendgridService, Templates } from "../../../@common/utils/sendgrid.service"
 import { SignInService } from "./signin.service"
-import { GetLanguageService } from "../../language/services/get.language.service"
 
 @Injectable()
 export class SignUpService {
@@ -21,22 +20,21 @@ export class SignUpService {
         private readonly userRolesRepository: Repository<UserRoles>,
         private readonly bcryptService: BcryptService,
         private readonly getRoleService: GetRoleService,
-        private readonly getLanguageService: GetLanguageService,
         private readonly sendgridService: SendgridService,
         private readonly signinService: SignInService
     ) { }
 
     async signUp(body: SignUp): Promise<object> {
-        const { username, email, password, roles } = body
+        const { name, email, password, roles } = body
         let user
         try {
             user = await this.userRepository.save({
-                username, 
+                name, 
                 email, 
                 password: this.bcryptService.encryption(password)
             })
         } catch (error) {
-            return { error: 'CONSTRAINT EMAIL' }
+            throw new BadRequestException('Constraint email')
         }
 
         if(roles){
@@ -49,20 +47,18 @@ export class SignUpService {
             await this.userRolesRepository.save({ user, role: defaultRole })
         }
 
-        user.language = await this.getLanguageService.getLanguage({ name: 'SPANISH' })
-
         await this.userRepository.save(user)
 
         await this.sendgridService.sendEmail(
             user.email,
             Templates.SIGNUP_SUCCESS,
             {
-                username: user.username,
+                name: user.name,
                 message: '',
             },
         )
 
-        return this.signinService.signIn({ username: user.username, password })
+        return this.signinService.signIn({ email: user.email, password })
     }
 
 }

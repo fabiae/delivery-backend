@@ -3,7 +3,7 @@ import { IsString, IsNotEmpty } from 'class-validator'
 export class SignIn {
     @IsNotEmpty()
     @IsString()
-    readonly username: string
+    readonly email: string
 
     @IsNotEmpty()
     @IsString()

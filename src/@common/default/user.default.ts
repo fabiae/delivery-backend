@@ -6,7 +6,6 @@ import { Roles } from "../enums/roles.enum"
 import { BcryptService } from "../utils/bcrypt.service"
 import { UserRoles } from "../../entities/example/userRoles.entity"
 import { Role } from "../../entities/example/role.entity"
-import { Language } from "../../entities/example/language.entity"
 
 export const USERS = [
     { 
@@ -31,8 +30,6 @@ export class UserDefault {
         private readonly rolesRepository: Repository<UserRoles>,
         @InjectRepository(Role)
         private readonly roleRepository: Repository<Role>,
-        @InjectRepository(Language)
-        private readonly languageRepository: Repository<Language>,
         private readonly bcryptService: BcryptService
     ){
         setTimeout(() => {
@@ -57,8 +54,6 @@ export class UserDefault {
             user: _new,
             role: await this.roleRepository.findOne({ name: role })
         })]
-
-        _new.language = await this.languageRepository.findOne({ name: 'SPANISH' })
 
         return this.repository.save(_new)
     }

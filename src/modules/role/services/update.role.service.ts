@@ -16,7 +16,6 @@ export class UpdateRoleService {
     ){}
 
     async updateRole(id: number, body: UpdateRole): Promise<object> {
-        await this.getRoleService.getRole({ id })
         const updatedRole = await this.roleRepository.update(id, body)
         if(updatedRole.affected === 1)
             return { update: 'SUCCESS' }
@@ -24,7 +23,7 @@ export class UpdateRoleService {
     }
 
     async setState(id: number): Promise<object> {
-        const role = await  this.getRoleService.getRole({ id })
+        const role = await this.roleRepository.findOne({ id })
         role.state = role.state === States.ACTIVE ? States.INACTIVE : States.ACTIVE
         await this.roleRepository.save(role)
         return { ok: true }

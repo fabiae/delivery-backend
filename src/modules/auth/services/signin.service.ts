@@ -19,18 +19,16 @@ export class SignInService {
     ) { }
 
     async signIn(body: SignIn): Promise<object> {
-        const { username, password } = body
+        const { email, password } = body
 
         const user = await this.userRepository
             .createQueryBuilder('user')
-            .select(['user.id', 'user.username', 'user.email', 'user.password'])
-            .addSelect(['roles.id', 'role.name', 'permissions.id', 'permission.id', 'permission.name'])
+            .select(['user.id', 'user.name', 'user.email', 'user.password'])
+            .addSelect(['roles.id', 'role.name'])
             .leftJoin('user.userRoles', 'roles', "roles.state = :stat", { stat: States.ACTIVE })
-            .leftJoin('roles.userPermissions', 'permissions', 'permissions.state = :stat', { stat: States.ACTIVE })
-            .leftJoin('permissions.permission', 'permission', 'permission.state = :stat', { stat: States.ACTIVE })
             .leftJoin('roles.role', 'role', 'role.state = :stat', { stat: States.ACTIVE })
-            .where('user.username = :username and user.state = :state', { 
-                username, state: States.ACTIVE
+            .where('user.email = :email and user.state = :state', { 
+                email, state: States.ACTIVE
             })
             .getOne()
         
@@ -44,6 +42,6 @@ export class SignInService {
         }
 
         const token = this.jwtService.sign(getToken(user))
-        return { token, ok: true }
+        return { token }
     }
 }

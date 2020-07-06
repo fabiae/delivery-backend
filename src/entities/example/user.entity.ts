@@ -4,14 +4,11 @@ import {
     CreateDateColumn, 
     UpdateDateColumn, 
     Column, 
-    JoinColumn,
     OneToMany,
-    ManyToOne,
 } from "typeorm"
 
 import { States } from "../../@common/enums/states.enum"
 import { UserRoles } from "./userRoles.entity"
-import { Language } from "./language.entity"
 
 @Entity('users')
 export class User {
@@ -42,11 +39,4 @@ export class User {
         userRoles => userRoles.user,
     )
     userRoles: UserRoles[]
-
-    @ManyToOne(
-        type => Language,
-        language => language.users
-    )
-    @JoinColumn({ name: 'fk_language' })
-    language: Language
 }

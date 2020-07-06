@@ -18,7 +18,6 @@ import { GetRoleService } from './services/get.role.service'
 import { CreateRoleService } from './services/create.role.service'
 import { DeleteRoleService } from './services/delete.role.service'
 import { UpdateRoleService } from './services/update.role.service'
-import { GetRole } from './dto/get-role.dto'
 import { CreateRole } from './dto/create-role.dto'
 import { UpdateRole } from './dto/update-role.dto'
 import { Roles } from '../../@common/enums/roles.enum'
@@ -38,11 +37,6 @@ export class RoleController {
     @Get('/all')
     getAll(@Query("state") state: States) {
         return this.getRoleService.getAll(state)
-    }
-
-    @Get()
-    getRole(@Query() params: GetRole) {
-        return this.getRoleService.getRole(params)
     }
 
     @Post()

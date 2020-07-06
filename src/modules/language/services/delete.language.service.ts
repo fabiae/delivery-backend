@@ -14,7 +14,6 @@ export class DeleteLanguageService {
     ){}
 
     async deleteLanguage(id: number): Promise<object> {
-        await this.getLanguageService.getLanguage({ id })
         const deletedLanguage = await this.languageRepository.delete(id)
         if(deletedLanguage.affected === 1)
             return { delete: 'SUCCESS' }

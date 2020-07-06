@@ -11,7 +11,7 @@ import { Roles } from '../../../@common/enums/roles.enum'
 export class SignUp {
   @IsNotEmpty()
   @IsString()
-  readonly username: string
+  readonly name: string
 
   @IsNotEmpty()
   @IsEmail()

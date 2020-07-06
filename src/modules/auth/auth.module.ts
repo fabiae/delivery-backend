@@ -9,13 +9,11 @@ import { RoleModule } from '../role/role.module'
 import { SignInService } from './services/signin.service'
 import { RecoverPasswordService } from './services/recover.password.service'
 import { RecoverPassword } from '../../entities/example/recoverPassword.entity'
-import { LanguageModule } from '../language/language.module'
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, UserRoles, RecoverPassword]),
     RoleModule,
-    LanguageModule
   ],
   controllers: [AuthController],
   providers: [

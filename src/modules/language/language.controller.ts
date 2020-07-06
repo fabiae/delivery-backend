@@ -18,7 +18,6 @@ import { GetLanguageService } from './services/get.language.service'
 import { CreateLanguageService } from './services/create.language.service'
 import { UpdateLanguageService } from './services/update.language.service'
 import { DeleteLanguageService } from './services/delete.language.service'
-import { GetLanguage } from './dto/get-language.dto'
 import { CreateLanguage } from './dto/create-language.dto'
 import { UpdateLanguage } from './dto/update-language.dto'
 import { Roles } from '../../@common/enums/roles.enum'
@@ -36,11 +35,6 @@ export class LanguageController {
     @Get('/all')
     getAll(@Query("state") state: States) {
         return this.getLanguageService.getAll(state)
-    }
-
-    @Get()
-    getLanguage(@Query() params: GetLanguage) {
-        return this.getLanguageService.getLanguage(params)
     }
 
     @Post()

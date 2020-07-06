@@ -4,11 +4,9 @@ import {
     Column, 
     CreateDateColumn,
     UpdateDateColumn,
-    OneToMany
 } from "typeorm"
 
 import { States } from "../../@common/enums/states.enum"
-import { User } from "./user.entity"
 
 @Entity('languages')
 export class Language {
@@ -30,10 +28,4 @@ export class Language {
 
     @UpdateDateColumn({ type: 'timestamp', name: 'update_ad' })
     updateAd: Date
-
-    @OneToMany(
-        type => User,
-        user => user.language,
-    )
-    users: User[]
 }

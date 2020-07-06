@@ -3,8 +3,8 @@ import { InjectRepository } from "@nestjs/typeorm"
 import { Repository } from "typeorm"
 
 import { Role } from "../../../entities/example/role.entity"
-import { GetRole } from "../dto/get-role.dto"
 import { States } from "../../../@common/enums/states.enum"
+import { GetRole } from "../dto/get-role.dto"
 
 @Injectable()
 export class GetRoleService{
