@@ -11,11 +11,12 @@ export default registerAs('typeorm', () => {
     database: process.env.DB_DATABASE,
     synchronize: true,
     logging: false,
-    entities: ['dist/entities/example/*.entity{.js,.ts}']
+    entities: [ 
+      process.env.NODE_ENV === 'local' ? 
+        'src/entities/example/*.entity{.ts,.js}' : 
+        'dist/entities/example/*.entity{.js,.ts}' 
+    ]
   }
-
-  //ts-node in develop
-  //entities: [ process.env.NODE_ENV === 'local' ? 'src/entities/**/*.entity{.ts,.js}' : 'dist/entities/**/*.entity{.js,.ts}' ]
 
   return {
     example: {
