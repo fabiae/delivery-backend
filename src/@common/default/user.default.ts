@@ -11,13 +11,13 @@ export const USERS = [
     { 
         name: 'admin', 
         email: 'admin@email.com', 
-        password: 'admin', 
+        password: 'ADMIN123', 
         role: Roles.ADMIN
     },
     {
         name: 'client', 
         email: 'client@email.com', 
-        password: 'client', 
+        password: 'CLIENT123', 
         role: Roles.CLIENT
     }
 ]
